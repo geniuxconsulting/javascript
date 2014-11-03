@@ -210,6 +210,7 @@
       'with this, you would get nowhere fast.';
     ```
 
+  - Favor string concatenation over Array#join
   - When programmatically building up a string, use Array#join instead of string concatenation. Mostly for IE: [jsPerf](http://jsperf.com/string-vs-array-concat/2).
 
     ```javascript
@@ -311,6 +312,8 @@
       // ...stuff...
     }
     ```
+  - Don't use function declarations
+  - Use named function expressions
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -363,18 +366,18 @@
     var superPower = new SuperPower();
     ```
 
-  - Use one `var` declaration for multiple variables and declare each variable on a newline.
+  - Use multiple `var` declaration for multiple variables and declare each variable on a newline.
 
     ```javascript
     // bad
-    var items = getItems();
-    var goSportsTeam = true;
-    var dragonball = 'z';
-
-    // good
     var items = getItems(),
         goSportsTeam = true,
         dragonball = 'z';
+        
+    // good
+    var items = getItems();
+    var goSportsTeam = true;
+    var dragonball = 'z';
     ```
 
   - Declare unassigned variables last. This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
@@ -569,7 +572,7 @@
     }
     ```
 
-  - Use shortcuts.
+  - Optional: Use shortcuts.
 
     ```javascript
     // bad
@@ -600,14 +603,14 @@
 
 ## Blocks
 
-  - Use braces with all multi-line blocks.
+  - Always use braces!
 
     ```javascript
     // bad
     if (test)
       return false;
 
-    // good
+    // bad
     if (test) return false;
 
     // good
@@ -1066,25 +1069,27 @@
     });
     ```
 
-  - Use a leading underscore `_` when naming private properties
+ 
+  - Don't use a leading underscore `_` when trying to imply private properties. There are no private properties.
 
     ```javascript
     // bad
     this.__firstName__ = 'Panda';
     this.firstName_ = 'Panda';
-
-    // good
     this._firstName = 'Panda';
+    
+    // good
+    this.firstName = 'Panda';
     ```
 
-  - When saving a reference to `this` use `_this`.
+  - When saving a reference to `this` use `self`.
 
     ```javascript
     // bad
     function() {
-      var self = this;
+      var _this = this;
       return function() {
-        console.log(self);
+        console.log(_this);
       };
     }
 
@@ -1098,9 +1103,9 @@
 
     // good
     function() {
-      var _this = this;
+      var self = this;
       return function() {
-        console.log(_this);
+        console.log(self);
       };
     }
     ```
@@ -1126,6 +1131,8 @@
 
 ## Accessors
 
+  - Direct property access is preferred over accessor functions
+  - Rather use `Object.defineProperty` to implement custom properties than using accessor functions
   - Accessor functions for properties are not required
   - If you do make accessor functions use getVal() and setVal('hello')
 
@@ -1296,15 +1303,14 @@
 
 ## Modules
 
-  - The module should start with a `!`. This ensures that if a malformed module forgets to include a final semicolon there aren't errors in production when the scripts get concatenated. [Explanation](https://github.com/airbnb/javascript/issues/44#issuecomment-13063933)
-  - The file should be named with camelCase, live in a folder with the same name, and match the name of the single export.
-  - Add a method called `noConflict()` that sets the exported module to the previous version and returns this one.
+  - The file should be named with camelCase and match the name of the single export.
+  - When using module that export to the global object, add a method called `noConflict()` that sets the exported module to the previous version and returns this one.
   - Always declare `'use strict';` at the top of the module.
 
     ```javascript
-    // fancyInput/fancyInput.js
+    // fancyInput.js
 
-    !function(global) {
+    (function(global) {
       'use strict';
 
       var previousFancyInput = global.FancyInput;
@@ -1319,7 +1325,7 @@
       };
 
       global.FancyInput = FancyInput;
-    }(this);
+    })(this);
     ```
 
 **[⬆ back to top](#table-of-contents)**
