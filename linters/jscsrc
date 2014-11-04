@@ -22,7 +22,6 @@
         ","
     ],
     "disallowMixedSpacesAndTabs": true,
-    "disallowTrailingWhitespace": true,
     "disallowTrailingComma": true,
     "disallowYodaConditions": true,
     "disallowKeywords": [ "with" ],
@@ -55,6 +54,5 @@
     ],
     "safeContextKeyword": "self",
     "validateLineBreaks": "LF",
-    "validateQuoteMarks": "'",
-    "validateIndentation": 2
+    "validateQuoteMarks": "'"
 }
